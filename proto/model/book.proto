@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package go_training.api.library.model;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "git.netcracker.com/zhurbin/go_training/pkg/api/library/model/api/library/model";
+
+message Book {
+
+  // Unique identifier of Book instance. 
+  string id = 1;
+  
+  // Title of Book.
+  string title = 2;
+  
+  // Content of the Book.  
+  string content = 3;
+  
+  // List of authors who wrote a Book.
+  // Description of repeated field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  repeated string authors = 4;
+  
+  // Book creation timestamp.
+  google.protobuf.Timestamp created_at = 5;
+  
+  // Timestamp when the Book has been updated last time.
+  google.protobuf.Timestamp updated_at = 6;
+}

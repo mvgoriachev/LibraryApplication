@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package go_training.api.library.services;
+
+import "proto/model/book.proto";
+
+import "google/api/annotations.proto";
+
+option go_package = "git.netcracker.com/zhurbin/go_training/pkg/api/library/services/api/library/services";
+
+service Book {
+
+  // Create new Book.
+  rpc Create(CreateRequest) returns (Response) {
+    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+  }
+  
+  // Get particular Book by its id.  
+  rpc Get(Request) returns (Response) {
+    option (google.api.http) = {
+      get: "/{id=books/*}"
+    };
+  }
+  
+  // List of Books currently existed in the system. 
+  rpc List(ListRequest) returns (ListResponse) {
+    option (google.api.http) = {
+      get: "/books"
+    };
+  }
+  
+  // Update Book with new information.
+  rpc Update(UpdateRequest) returns (Response) {
+    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+  }
+  
+  // Delete particular Book by its id. 
+  rpc Delete(Request) returns (DeleteResponse) {
+    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+  }
+}
+
+message CreateRequest {
+
+  // Title of Book.
+  string title = 1;
+  
+  // Content of the Book.  
+  string content = 2;
+  
+  // List of authors who wrote a Book.
+  // Description of repeated field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  repeated string authors = 3;
+}
+
+message ListRequest {
+}
+
+message Request { 
+
+  // Unique identifier of Book instance. 
+  string id = 1; 
+}
+
+message UpdateRequest {
+
+  // Unique identifier of Book instance. 
+  string id = 1;
+  
+  // Title of Book.
+  // Description of optional field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  optional string title = 2;
+  
+  // Content of the Book.
+  // Description of optional field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  optional string content = 3;
+  
+  // List of authors who wrote a Book.
+  // Description of repeated field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  repeated string authors = 4;
+}
+
+message DeleteResponse { 
+  
+  // Result of book removal.
+  bool result = 1; 
+}
+
+message Response {   
+  model.Book book = 1; 
+}
+
+message ListResponse {
+  // Description of repeated field can be found at  https://developers.google.com/protocol-buffers/docs/proto3#specifying_field_rules
+  repeated model.Book books = 1; 
+}
