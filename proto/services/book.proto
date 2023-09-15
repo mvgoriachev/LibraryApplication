@@ -12,7 +12,9 @@ service Book {
 
   // Create new Book.
   rpc Create(CreateRequest) returns (Response) {
-    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+    option (google.api.http) = {
+      post: "/book"
+    };
   }
   
   // Get particular Book by its id.  
@@ -31,12 +33,16 @@ service Book {
   
   // Update Book with new information.
   rpc Update(UpdateRequest) returns (Response) {
-    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+    option (google.api.http) = {
+      patch: "/book"
+    };
   }
   
   // Delete particular Book by its id. 
   rpc Delete(Request) returns (DeleteResponse) {
-    //todo add the gRPC-Gateway annotations (as it's done for GET/LIST)
+    option (google.api.http) = {
+      delete: "/{id=books/*}"
+    };
   }
 }
 
