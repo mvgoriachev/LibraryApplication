@@ -98,7 +98,7 @@ func (pgConn *PgConn) ListBooks() (books []*model.Book) {
 
 }
 
-func (pgConn *PgConn) CreateBook(bookReq services.CreateRequest) (bookResp model.Book) {
+func (pgConn *PgConn) CreateBook(bookReq *services.CreateRequest) (bookResp model.Book) {
 	var t1, t2 time.Time
 	var id int
 	updateBookQuery := `INSERT INTO book (book_title, book_content, created_at, updated_at)
@@ -108,7 +108,7 @@ func (pgConn *PgConn) CreateBook(bookReq services.CreateRequest) (bookResp model
 	if err != nil {
 		log.Fatal("QueryRow failed: %v\n", err)
 	}
-	bookResp.Id = id
+	//bookResp.Id = id
 	bookResp.CreatedAt = timestamppb.New(t1)
 	bookResp.UpdatedAt = timestamppb.New(t2)
 
@@ -118,6 +118,7 @@ func (pgConn *PgConn) CreateBook(bookReq services.CreateRequest) (bookResp model
 	}
 
 	_, err2 := pgConn.conn.CopyFrom(
+		context.Background(),
 		pgx.Identifier{"author"},
 		[]string{"book_id", "author_name"},
 		pgx.CopyFromRows(rows),
